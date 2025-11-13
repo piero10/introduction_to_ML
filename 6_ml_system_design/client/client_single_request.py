@@ -3,7 +3,7 @@ import requests
 
 # Пример данных: несколько пассажиров
 data = pd.DataFrame([
-    {"age": 22, "fare": 7.25, "sex": "male", "pclass": "Third", "embarked": "S"},
+    {"age": 27, "fare": 7.25, "sex": "male", "pclass": "Third", "embarked": "S"},
     {"age": 38, "fare": 71.2833, "sex": "female", "pclass": "First", "embarked": "C"},
     {"age": 26, "fare": 7.925, "sex": "female", "pclass": "Third", "embarked": "S"},
 ])
@@ -15,11 +15,13 @@ url = "http://127.0.0.1:8000/predict"
 predictions = []
 for _, row in data.iterrows():
     payload = row.to_dict()
-    response = requests.post(url, json=payload)
+    response = requests.get(url, json=payload)
+    print("code: ", response.status_code)
     if response.status_code == 200:
         predictions.append(response.json())
     else:
         predictions.append({"error": response.text})
+        print
 
 # Объединяем результаты с исходными данными
 results = data.copy()

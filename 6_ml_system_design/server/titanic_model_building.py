@@ -1,4 +1,3 @@
-import pandas as pd
 import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -8,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 import joblib
 
 # -------------------------------
-# 1. Load dataset
+# 1. Загружаем датасет
 # -------------------------------
 titanic = sns.load_dataset('titanic').dropna(subset=['age', 'fare', 'embarked', 'sex', 'class', 'survived'])
 
@@ -16,7 +15,7 @@ X = titanic[['age', 'fare', 'sex', 'class', 'embarked']]
 y = titanic['survived']
 
 # -------------------------------
-# 2. Preprocessing
+# 2. Препроцессинг
 # -------------------------------
 numeric_features = ['age', 'fare']
 categorical_features = ['sex', 'class', 'embarked']
@@ -34,9 +33,7 @@ preprocessor = ColumnTransformer(
         ('cat', categorical_transformer, categorical_features)
     ])
 
-# -------------------------------
-# 3. Train model
-# -------------------------------
+# 3. Тренируем модель
 model = Pipeline(steps=[
     ('preprocessor', preprocessor),
     ('classifier', RandomForestClassifier(n_estimators=200, random_state=42))
